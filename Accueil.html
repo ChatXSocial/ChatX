@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  header {
+    background-color: #000;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative; /* Position relative pour les éléments absolus à l'intérieur */
+  }
+
+  .header-container {
+    background-color: #000;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+  }
+
+  .header-container h1 {
+    font-weight: bold;
+    color: #fff;
+    margin-left: 10px;
+  }
+
+  .icon-container {
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    position: relative; /* Position relative pour les éléments absolus à l'intérieur */
+  }
+
+  .icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    position: relative; /* Ajout de position relative */
+  }
+
+  .icon span {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  .indicator {
+    position: absolute; /* Positionnement absolu par rapport à l'icône parent */
+    bottom: -5px; /* Distance entre l'icône et l'indicateur */
+    width: 100%; /* Largeur de l'indicateur égale à la largeur de l'icône */
+    height: 2px; /* Hauteur de l'indicateur */
+    background-color: #000; /* Couleur de l'indicateur */
+    border-radius: 5px; /* Bordure arrondie de l'indicateur */
+    opacity: 0; /* L'indicateur est initialement caché */
+    transition: opacity 0.3s ease; /* Transition pour un effet de fondu */
+  }
+
+  .icon.clicked .indicator {
+    opacity: 1; /* Afficher l'indicateur lorsque l'icône est cliquée */
+  }
+
+  /* Styles pour le bouton Afficher */
+  #show-button {
+    position: absolute;
+    bottom: -50px; /* Distance entre le bouton et le bas de la page */
+    left: 50%; /* Positionnement au centre horizontalement */
+    transform: translateX(-50%); /* Déplacement de 50% de la largeur du bouton vers la gauche pour le centrer */
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Styles pour l'icône de recherche */
+  #search-icon {
+    position: absolute;
+    bottom: -50px; /* Distance entre l'icône de recherche et le bas de la page */
+    right: 10px; /* Distance entre l'icône de recherche et la droite de la page */
+    color: #000;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <h1>CHATX</h1>
+    <img src="logo.png" alt="Logo" style="width: 50px; height: 50px; margin-right: 10px; border-radius: 50%;">
+  </div>
+
+  <div class="icon-container">
+    <a href="#" class="icon home-icon" onclick="changeColor(this)">
+      <i class="fas fa-home"></i>
+      <span>Accueil</span>
+      <div class="indicator"></div> <!-- Indicateur sous l'icône -->
+    </a>
+    <a href="message.html" class="icon message-icon" onclick="changeColor(this)">
+      <i class="fas fa-comment"></i>
+      <span>Message</span>
+      <div class="indicator"></div> <!-- Indicateur sous l'icône -->
+    </a>
+    <a href="amis_et_contacts.html" class="icon friends-icon" onclick="changeColor(this)">
+      <i class="fas fa-user-friends"></i>
+      <span>Amis ou contacts</span>
+      <div class="indicator"></div> <!-- Indicateur sous l'icône -->
+    </a><a href="notification.html" class="icon notification-icon" onclick="changeColor(this)">
+      <i class="fas fa-bell"></i>
+      <span>Notification</span>
+      <div class="indicator"></div> <!-- Indicateur sous l'icône -->
+    </a>
+  </div>
+  
+  <!-- Bouton Afficher -->
+  <button id="show-button">Afficher</button>
+
+  <!-- Icône de recherche -->
+  <i id="search-icon" class="fas fa-search" onclick="redirectToSearch()"></i>
+</header>
+
+<script>
+function changeColor(element) {
+  var icons = document.querySelectorAll('.icon'); // Sélectionner toutes les icônes
+  icons.forEach(icon => { // Parcourir toutes les icônes
+    icon.classList.remove('clicked'); // Supprimer la classe 'clicked' de toutes les icônes
+  });
+  element.classList.toggle('clicked'); // Ajouter ou supprimer la classe 'clicked' de l'icône cliquée
+}
+
+// Redirection vers la page de recherche
+function redirectToSearch() {
+  window.location.href = "rechercher.html"; // Remplacez "rechercher.html" par le chemin de votre page de recherche
+}
+</script>
+
+</body>
+</html>

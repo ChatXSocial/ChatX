@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interface de Messagerie</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .header {
+    background-color: #000;
+    padding: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    position: relative; /* Ajout de position relative pour le positionnement absolu du champ de recherche */
+  }
+
+  .header h1 {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    z-index: 999;
+  }
+
+  /* Styles pour le champ de recherche et le bouton */
+  .search-container {
+    display: flex;
+    align-items: center;
+    position: absolute; /* Positionnement absolu par rapport au cadre de l'entête */
+    left: 10px; /* Décalage vers la gauche */
+    bottom: calc(8cm + 60px); /* Décalage vers le haut de 8cm */
+  }
+
+  .search-input {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+  }
+
+  .search-button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Rechercher</h1>
+</div>
+
+<div class="search-container">
+  <input type="text" class="search-input" id="searchInput" placeholder="Rechercher...">
+  <button class="search-button" onclick="rechercherEtEnvoyerMessage()">Rechercher</button> <!-- Appel de la nouvelle fonction rechercherEtEnvoyerMessage -->
+</div>
+
+<div class="bottom-bar">
+  <img src="logo.png" alt="Logo">
+  <span class="copyright">Desnado Kouacanou copyright</span>
+</div>
+
+<script>
+// Variable pour stocker l'ID de l'utilisateur actuellement connecté (à remplacer par la vraie valeur)
+var utilisateurActuelId = 1; // Exemple : l'utilisateur actuellement connecté a l'ID 1
+
+// Fonction pour vérifier si un utilisateur existe et envoyer un message "Hello" automatiquement
+function rechercherEtEnvoyerMessage() {
+  var searchInput = document.getElementById('searchInput').value.toLowerCase(); // Récupérer la saisie de l'utilisateur en minuscules
+  // Rechercher l'utilisateur correspondant dans les données (remplacez 'data' par votre variable contenant les données)
+  var utilisateurTrouve = data.users.find(user => user.nom.toLowerCase() === searchInput);
+  if (utilisateurTrouve) { // Si l'utilisateur est trouvé
+    alert("Utilisateur trouvé : " + utilisateurTrouve.nom); // Afficher le nom de l'utilisateur trouvé
+    // Envoyer automatiquement un message "Hello" à l'utilisateur trouvé (remplacez 'sendMessage' par votre fonction d'envoi de message)
+    sendMessage(utilisateurActuelId, utilisateurTrouve.id, "Hello");
+  } else {
+    alert("Aucun utilisateur trouvé pour la recherche : " + searchInput); // Si aucun utilisateur trouvé
+  }
+}
+
+// Fonction factice pour simuler l'envoi de message
+function sendMessage(expediteurId, destinataireId, message) {
+  console.log("Message envoyé de " + expediteurId + " à " + destinataireId + ": " + message);
+}
+</script>
+
+</body>
+</html>

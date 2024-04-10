@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation d'email</title>
+    <style>
+        /* Styles CSS ici */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Confirmation d'email</h2>
+        <p>Un code de confirmation a été envoyé à votre adresse email. Veuillez le saisir ci-dessous :</p>
+        <form id="confirmationForm">
+            <div class="form-group">
+                <label for="code">Code de confirmation :</label>
+                <input type="text" id="code" name="code" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirmer">
+            </div>
+        </form>
+    </div>
+
+    <!-- Bande noire avec le logo -->
+    <div class="footer">
+        <img src="votre_logo.png" alt="Logo">
+    </div>
+
+    <script>
+        document.getElementById("confirmationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            // Récupérer le code saisi par l'utilisateur
+            var code = document.getElementById("code").value;
+            // Envoyer le code au serveur pour vérification
+            // Ici, vous pouvez ajouter votre propre logique pour vérifier le code
+            // et afficher un message de confirmation à l'utilisateur
+            if (verifierCodeConfirmation(code)) {
+                window.location.href = "true.html"; // Redirection vers une page en cas de code correct
+            } else {
+                window.location.href = "false.html"; // Redirection vers une page en cas de code incorrect
+            }
+        });
+
+        // Fonction pour vérifier le code de confirmation
+        function verifierCodeConfirmation(code) {
+            // Implémentez votre logique de vérification du code ici
+            // Par exemple, vous pouvez comparer le code avec une valeur prédéfinie ou le vérifier dans une base de données
+            // Retournez true si le code est correct, sinon retournez false
+            // Cette fonction est juste un exemple, remplacez-la par votre propre logique de vérification
+            return code === "123456"; // Exemple: Le code de confirmation est "123456"
+        }
+    </script>
+</body>
+  </html>

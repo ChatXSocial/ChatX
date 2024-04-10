@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <style>
+    /* Styles CSS ici */
+  </style>
+</head>
+<body>
+  <img src="logo.png" alt="Logo" class="logo"> <!-- Ajout du logo -->
+  <div class="container">
+    <h2>Connexion</h2>
+    <form id="loginForm">
+      <input type="text" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Mot de passe" required>
+      <input type="submit" value="Se connecter">
+    </form>
+    <p>Pas encore de compte ? <a href="#">S'inscrire</a></p>
+    <p><a href="#">Mot de passe oublié ?</a></p>
+  </div>
+
+  <script src="ChatX.js"></script> <!-- Inclusion du fichier ChatX.js -->
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Empêche l'envoi du formulaire par défaut
+      
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      
+      // Envoi des identifiants à la fonction de vérification côté serveur (Python)
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Redirection vers la page d'accueil si l'authentification est réussie
+          window.location.href = "Accueil.html";
+        } else {
+          alert("Identifiants incorrects. Veuillez réessayer.");
+        }
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+      });
+    });
+  </script>
+
+  <?php
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les données du formulaire
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Charger les données existantes du fichier
+    $file = 'ChatX.js'; // Remplacement de 'donnees.json' par 'ChatX.js'
+    $data = file_get_contents($file);
+    $donnees = json_decode($data, true);
+
+    // Parcourir la liste des utilisateurs pour vérifier les identifiants
+    $found = false;
+    foreach ($donnees['utilisateurs'] as $utilisateur) {
+      if ($utilisateur['email'] === $email && $utilisateur['mot_de_passe'] === $password) {
+        $found = true;
+        break;
+      }
+    }
+
+    // Retourner une réponse JSON
+    header('Content-Type: application/json');
+    echo json_encode(['success' => $found]);
+  }
+  ?>
+</body>
+      </html>

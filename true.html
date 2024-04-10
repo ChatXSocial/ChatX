@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation d'email</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+            max-width: 400px;
+            text-align: center;
+            animation: zoomIn 0.5s;
+            margin-top: 50px; /* Déplacer le cadre vers le haut */
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .continue-button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .continue-button:hover {
+            background-color: #333;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Confirmation d'email</h2>
+        <p>Votre email a été confirmé avec succès.</p>
+        <p class="confirmation-message">Votre email : user@example.com</p>
+        <div class="button-container">
+            <button class="continue-button" onclick="window.location.href='Accueil.html';">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Ajoute une animation de zoom au chargement de la page
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            document.querySelector('.container').classList.add('zoomIn');
+        });
+    </script>
+</body>
+  </html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interface de Messagerie</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  /* Votre CSS actuel reste inchangé */
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Message</h1>
+  <i class="fas fasearch search-icon" onclick="toggleClicked(this)"></i>
+  <div class="circle"></div>
+</div>
+
+<!-- Cadre blanc avec les icônes -->
+<div class="icon-container">
+  <a href="#" class="icon home-icon" onclick="changeColor(this)">
+    <i class="fas fa-home"></i>
+    <span>Accueil</span>
+    <div class="indicator"></div>
+  </a>
+  <a href="#" class="icon friends-icon" onclick="changeColor(this)">
+    <i class="fas fa-user-friends"></i>
+    <span>Amis ou contacts</span>
+    <div class="indicator"></div>
+  </a>
+  <a href="#" class="icon message-icon clicked" onclick="toggleClicked(this); openModal()">
+    <i class="fas fa-comment"></i>
+    <span>Message</span>
+    <div class="indicator"></div>
+  </a>
+  <a href="#" class="icon notification-icon" onclick="changeColor(this)">
+    <i class="fas fa-bell"></i>
+    <span>Notification</span>
+    <div class="indicator"></div>
+  </a>
+</div>
+
+<div class="content">
+  <!-- La liste des messages est supprimée -->
+</div>
+
+<!-- Bande noire en bas de la page avec le logo -->
+<div class="bottom-bar">
+  <img src="logo.png" alt="Logo">
+  <span class="copyright">Desnado Kouacanou copyright</span>
+</div>
+
+<!-- Boîte de dialogue modale -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Conversation avec [Nom de l'utilisateur]</h2>
+    <!-- Contenu de la boîte de dialogue modale -->
+    <div class="conversation">
+      <!-- Messages envoyés par l'utilisateur -->
+      <div class="user-message">
+        <div class="message-box user">
+          <p>Message de l'utilisateur 1</p>
+        </div>
+      </div>
+      <!-- Messages reçus -->
+      <div class="received-message">
+        <div class="message-box received">
+          <p>Message reçu 1</p>
+        </div>
+      </div>
+      <!-- Répéter le bloc de messages ci-dessus pour chaque message -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Fonction pour charger les données depuis le fichier JSON
+function chargerDonnees() {
+  fetch('donnees.json')
+    .then(response => response.json())
+    .then(data => {
+      // Utilisez les données ici selon vos besoins
+      console.log(data); // Exemple : affichage des données dans la console
+    })
+    .catch(error => console.error('Erreur lors du chargement des données :', error));
+}
+
+// Appel à la fonction pour charger les données au chargement de la page
+window.addEventListener('DOMContentLoaded', chargerDonnees);
+
+// Vos autres fonctions JavaScript restent inchangées
+function toggleClicked(element) {
+  element.classList.toggle('clicked');
+}
+
+function changeColor(element) {
+  var icons = document.querySelectorAll('.icon');
+  icons.forEach(icon => {
+    icon.classList.remove('clicked');
+  });
+  element.classList.toggle('clicked');
+}
+
+function openModal() {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "block";
+}
+
+function closeModal() {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
+}
+</script>
+
+</body>
+</html>

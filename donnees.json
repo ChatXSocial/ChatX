@@ -1,0 +1,59 @@
+import json
+
+# Charger les données existantes du fichier
+with open('donnees.json', 'r') as file:
+    donnees = json.load(file)
+
+# Fonction pour ajouter un nouvel utilisateur
+def ajouter_utilisateur(email, nom, prenom, photo_profil):
+    nouvel_utilisateur = {
+        "email": email,
+        "nom": nom,
+        "prenom": prenom,
+        "photo_profil": photo_profil,
+        "messages": [],
+        "notifications": []  # Ajout de la liste des notifications pour chaque utilisateur
+    }
+    donnees["users"].append(nouvel_utilisateur)
+
+# Fonction pour ajouter un nouveau message et générer une notification
+def ajouter_message(sender_id, receiver_id, content):
+    nouveau_message = {
+        "senderId": sender_id,
+        "receiverId": receiver_id,
+        "content": content
+    }
+    donnees["messages"].append(nouveau_message)
+    
+    # Générer une notification pour le destinataire du message
+    destinataire = [user for user in donnees["users"] if user["id"] == receiver_id][0]
+    notification = {
+        "type": "message",
+        "content": f"Vous avez reçu un nouveau message de {nouveau_message['senderId']}",
+        "messageId": len(donnees["messages"]) - 1  # Identifier le message associé
+    }
+    destinataire["notifications"].append(notification)
+
+# Commande de notification
+def afficher_notifications(utilisateur_id):
+    utilisateur = [user for user in donnees["users"] if user["id"] == utilisateur_id][0]
+    notifications = utilisateur["notifications"]
+    if notifications:
+        print("Notifications:")
+        for notification in notifications:
+            print(notification["content"])
+    else:
+        print("Pas de nouvelles notifications")
+
+# Ajouter un nouvel utilisateur
+ajouter_utilisateur("nouvel_utilisateur@example.com", "NouveauNom", "NouveauPrenom", "lien_vers_photo.jpg")
+
+# Ajouter un nouveau message
+ajouter_message(1, 2, "Bonjour Jane, comment vas-tu ?")
+
+# Afficher les notifications pour l'utilisateur avec l'ID 2
+afficher_notifications(2)
+
+# Enregistrer les modifications dans le fichier
+with open('donnees.json', 'w') as file:
+    json.dump(donnees, file, indent=4)
