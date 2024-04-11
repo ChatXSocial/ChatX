@@ -6,6 +6,15 @@
     <title>Confirmation d'email</title>
     <style>
         /* Styles CSS ici */
+        .footer {
+            position: fixed;
+            bottom: 0; /* Déplace la bande noire complètement en bas */
+            width: 100%; /* Assure que la bande noire a la largeur totale de la page */
+            background-color: black; /* Couleur de fond noire */
+            color: white; /* Texte blanc */
+            padding: 10px; /* Espacement intérieur */
+            text-align: center; /* Centre le texte */
+        }
     </style>
 </head>
 <body>
@@ -34,23 +43,41 @@
             // Récupérer le code saisi par l'utilisateur
             var code = document.getElementById("code").value;
             // Envoyer le code au serveur pour vérification
-            // Ici, vous pouvez ajouter votre propre logique pour vérifier le code
-            // et afficher un message de confirmation à l'utilisateur
-            if (verifierCodeConfirmation(code)) {
-                window.location.href = "true.html"; // Redirection vers une page en cas de code correct
-            } else {
-                window.location.href = "false.html"; // Redirection vers une page en cas de code incorrect
-            }
+            // Ici, nous allons lire les données utilisateurs depuis un fichier de stockage
+            verifierCodeConfirmation(code);
         });
 
         // Fonction pour vérifier le code de confirmation
         function verifierCodeConfirmation(code) {
-            // Implémentez votre logique de vérification du code ici
-            // Par exemple, vous pouvez comparer le code avec une valeur prédéfinie ou le vérifier dans une base de données
-            // Retournez true si le code est correct, sinon retournez false
-            // Cette fonction est juste un exemple, remplacez-la par votre propre logique de vérification
-            return code === "123456"; // Exemple: Le code de confirmation est "123456"
+            // Importer le module fs
+            const fs = require('fs');
+
+            // Lire les données utilisateur à partir du fichier de stockage
+            fs.readFile('donnees.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Erreur lors de la lecture du fichier de données:', err);
+                    return false; // En cas d'erreur, retourne false
+                }
+                
+                try {
+                    // Parser les données JSON
+                    const donneesUtilisateurs = JSON.parse(data);
+
+                    // Recherche de l'utilisateur dans les données lues
+                    const utilisateur = donneesUtilisateurs.find(user => user.codeConfirmation === code);
+
+                    // Si l'utilisateur est trouvé et que le code correspond, redirection vers true.html, sinon redirection vers false.html
+                    if (utilisateur !== undefined) {
+                        window.location.href = "true.html";
+                    } else {
+                        window.location.href = "false.html";
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'analyse des données JSON:', error);
+                    return false; // En cas d'erreur d'analyse JSON, retourne false
+                }
+            });
         }
     </script>
 </body>
-  </html>
+</html>
