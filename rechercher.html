@@ -79,12 +79,50 @@
   <button class="search-button" onclick="rechercherEtEnvoyerMessage()">Rechercher</button> <!-- Appel de la nouvelle fonction rechercherEtEnvoyerMessage -->
 </div>
 
+<div class="icon-container">
+  <a href="#" class="icon home-icon" onclick="changeColor(this)">
+    <i class="fas fa-home"></i>
+    <span>Accueil</span>
+    <div class="indicator"></div>
+  </a>
+  <a href="#" class="icon friends-icon" onclick="changeColor(this)">
+    <i class="fas fa-user-friends"></i><span>Amis et Contacts</span> <!-- Changement de texte -->
+    <div class="indicator"></div>
+  </a>
+  <a href="#" class="icon message-icon" onclick="changeColor(this)">
+    <i class="fas fa-comment"></i>
+    <span>Message</span>
+    <div class="indicator"></div>
+  </a>
+  <a href="#" class="icon notification-icon clicked" onclick="changeColor(this)"> <!-- Maintenir l'indicateur -->
+    <i class="fas fa-bell"></i>
+    <span>Notification</span> <!-- Changement de texte -->
+    <div class="indicator"></div>
+  </a>
+</div>
+
+<div class="content">
+  <!-- La liste des messages est supprimée -->
+</div>
+
 <div class="bottom-bar">
-  <img src="logo.png" alt="Logo">
+  <img src="logo.png"alt="Logo">
   <span class="copyright">Desnado Kouacanou copyright</span>
 </div>
 
 <script>
+function toggleClicked(element) {
+  element.classList.toggle('clicked');
+}
+
+function changeColor(element) {
+  var icons = document.querySelectorAll('.icon');
+  icons.forEach(icon => {
+    icon.classList.remove('clicked');
+  });
+  element.classList.toggle('clicked');
+}
+
 // Variable pour stocker l'ID de l'utilisateur actuellement connecté (à remplacer par la vraie valeur)
 var utilisateurActuelId = 1; // Exemple : l'utilisateur actuellement connecté a l'ID 1
 
@@ -106,6 +144,30 @@ function rechercherEtEnvoyerMessage() {
 function sendMessage(expediteurId, destinataireId, message) {
   console.log("Message envoyé de " + expediteurId + " à " + destinataireId + ": " + message);
 }
+
+const fs = require('fs');
+
+// Fonction pour charger les notifications depuis un fichier de stockage
+function chargerNotifications() {
+  fs.readFile('donnees.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors du chargement des notifications : ', err);
+      return;
+    }
+    const notifications = JSON.parse(data).notifications;
+    afficherNotifications(notifications);
+  });
+}
+
+// Fonction pour afficher les notifications
+function afficherNotifications(notifications) {
+  // Ici, tu peux ajouter la logique pour afficher les notifications
+  // Par exemple, en utilisant le DOM pour ajouter des éléments HTML pour chaque notification
+  // Assure-toi de gérer le cas où il n'y a aucune notification à afficher
+}
+
+// Appeler la fonction chargerNotifications() au chargement de la page
+window.addEventListener('load', chargerNotifications);
 </script>
 
 </body>
