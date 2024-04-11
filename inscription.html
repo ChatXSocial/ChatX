@@ -114,6 +114,8 @@
     </div>
 
     <script>
+        const fs = require('fs');
+
         document.getElementById('inscriptionForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Empêche l'envoi du formulaire par défaut
             
@@ -144,44 +146,36 @@
         // Fonction pour ajouter un nouvel utilisateur dans le fichier ChatX
         function ajouterUtilisateur(utilisateur) {
             // Charger les données existantes du fichier
-            var donnees;
-            fetch('donnees.json')
-                .then(response => response.json())
-                .then(data => {
-                    donnees = data;
-                    // Simuler des données d'utilisateur (à remplacer par les données réelles de l'utilisateur)
-                    varnouvel_utilisateur = {
-                        "email": utilisateur.email,
-                        "nom": utilisateur.nom,
-                        "prenom": utilisateur.prenom,
-                        "photo_profil": "lien_vers_photo.jpg",
-                        "messages": []
-                    };
+            fs.readFile('donnees.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Erreur lors de la lecture du fichier donnees.json:', err);
+                    return;
+                }
+                
+                let donnees = JSON.parse(data);
+                // Simuler des données d'utilisateur (à remplacer par les données réelles de l'utilisateur)
+                let nouvel_utilisateur = {
+                    "email": utilisateur.email,
+                    "nom": utilisateur.nom,
+                    "prenom": utilisateur.prenom,
+                    "photo_profil": "lien_vers_photo.jpg",
+                    "messages": []
+                };
 
-                    // Ajouter le nouvel utilisateur aux données existantes
-                    donnees["utilisateurs"].push(nouvel_utilisateur);
+                // Ajouter le nouvel utilisateur aux données existantes
+                donnees["utilisateurs"].push(nouvel_utilisateur);
 
-                    // Enregistrer les modifications dans le fichier
-                    fetch('donnees.json', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(donnees),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Nouvel utilisateur ajouté : ', nouvel_utilisateur);
-                        // Envoyer le code de confirmation à l'email de l'utilisateur
-                        envoyerEmailConfirmation(utilisateur.email, utilisateur.code_confirmation);
-                    })
-                    .catch((error) => {
-                        console.error('Erreur lors de l\'ajout de l\'utilisateur : ', error);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Erreur lors de la récupération des données : ', error);
+                // Enregistrer les modifications dans le fichier
+                fs.writeFile('donnees.json', JSON.stringify(donnees), (err) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'écriture dans le fichier donnees.json:', err);
+                        return;
+                    }
+                    console.log('Nouvel utilisateur ajouté : ', nouvel_utilisateur);
+                    // Envoyer le code de confirmation à l'email de l'utilisateur
+                    envoyerEmailConfirmation(utilisateur.email, utilisateur.code_confirmation);
                 });
+            });
         }
 
         // Fonction pour générer un code de confirmation aléatoire
