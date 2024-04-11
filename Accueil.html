@@ -115,7 +115,8 @@
       <i class="fas fa-user-friends"></i>
       <span>Amis ou contacts</span>
       <div class="indicator"></div> <!-- Indicateur sous l'icône -->
-    </a><a href="notification.html" class="icon notification-icon" onclick="changeColor(this)">
+    </a>
+    <a href="notification.html" class="icon notification-icon" onclick="changeColor(this)">
       <i class="fas fa-bell"></i>
       <span>Notification</span>
       <div class="indicator"></div> <!-- Indicateur sous l'icône -->
@@ -123,7 +124,7 @@
   </div>
   
   <!-- Bouton Afficher -->
-  <button id="show-button">Afficher</button>
+  <button id="show-button" onclick="redirectToFacebookLogin()">Afficher</button>
 
   <!-- Icône de recherche -->
   <i id="search-icon" class="fas fa-search" onclick="redirectToSearch()"></i>
@@ -141,6 +142,11 @@ function changeColor(element) {
 // Redirection vers la page de recherche
 function redirectToSearch() {
   window.location.href = "rechercher.html"; // Remplacez "rechercher.html" par le chemin de votre page de recherche
+}
+
+// Redirection vers la page de connexion de Facebook
+function redirectToFacebookLogin() {
+  window.location.href = "https://www.facebook.com/login"; // Redirection vers la page de connexion de Facebook
 }
 </script>
 
