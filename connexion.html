@@ -4,6 +4,81 @@
   <title>Login Page</title>
   <style>
     /* Styles CSS ici */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: black; /* Arrière-plan de la page en noir */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative; /* Position relative pour le positionnement du logo */
+    }
+    .container {
+      width: 300px; /* Largeur du cadre */
+      height: auto; /* Hauteur ajustée automatiquement */
+      background-color: #fff;
+      padding: 40px; /* Padding augmenté */
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      border-radius: 40px; /* Bord circulaire agrandi */
+      margin-top: 100px; /* Marge supérieure augmentée */
+    }
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: black; /* Modification de la couleur du titre en noir */
+    }
+    .container input[type="text"], .container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid black; /* Modification de la couleur des bordures en noir */
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+      color: black; /* Modification de la couleur du texte en noir */
+    }
+    .container input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: black; /* Modification de la couleur du bouton en noir */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .container input[type="submit"]:hover {
+      background-color: #333;
+    }
+    .container p {
+      text-align: center;
+      margin-top: 20px;
+      color: black; /* Modification de la couleur du texte en noir */
+    }
+    .container a {
+      color: black; /* Modification de la couleur des liens en noir */
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .container a:hover {
+      text-decoration: underline;
+    }
+
+    /* Suppression du cadre pour qu'il soit noir avec des bords circulaires */
+    .information-container {
+      display: none; /* Cacher le container d'information */
+    }
+
+    /* Style pour le logo */
+    .logo {
+      position: absolute;
+      top: 20px; /* Décalage vers le bas */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px; /* Largeur du logo */
+      height: auto; /* Hauteur ajustée automatiquement */
+    }
   </style>
 </head>
 <body>
@@ -15,11 +90,9 @@
       <input type="password" id="password" placeholder="Mot de passe" required>
       <input type="submit" value="Se connecter">
     </form>
-    <p>Pas encore de compte ? <a href="#">S'inscrire</a></p>
+    <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p> <!-- Redirection vers inscription.html -->
     <p><a href="#">Mot de passe oublié ?</a></p>
   </div>
-
-  <script src="ChatX.js"></script> <!-- Inclusion du fichier ChatX.js -->
 
   <script>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -28,7 +101,7 @@
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
       
-      // Envoi des identifiants à la fonction de vérification côté serveur (Python)
+      // Envoi des identifiants au serveur Node.js pour vérification
       fetch('/login', {
         method: 'POST',
         headers: {
@@ -58,7 +131,7 @@
     $password = $_POST['password'];
 
     // Charger les données existantes du fichier
-    $file = 'ChatX.js'; // Remplacement de 'donnees.json' par 'ChatX.js'
+    $file = 'donnees.json'; // Nom du fichier destockage de données
     $data = file_get_contents($file);
     $donnees = json_decode($data, true);
 
@@ -77,4 +150,4 @@
   }
   ?>
 </body>
-      </html>
+</html>
