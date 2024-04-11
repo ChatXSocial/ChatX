@@ -53,14 +53,13 @@
 
   .content {
     padding: 20px;
-    min-height: 400%; /* Augmentation du min-height */
+    min-height: 400%;
   }
 
-  /* Ajout de styles supplémentaires pour le contenu de la page (exemple) */
   .message-list {
     list-style-type: none;
     padding: 0;
-    display: none; /* Supprimer les cadres de messages */
+    display: none;
     flex-wrap: wrap;
     justify-content: space-between;
   }
@@ -73,8 +72,8 @@
     width: calc(50% - 20px);
     display: flex;
     align-items: center;
-    margin-left: auto; /* Ajout de la marge automatique à gauche */
-    margin-right: auto; /* Ajout de la marge automatique à droite */
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .message img {
@@ -88,7 +87,6 @@
     margin: 0;
   }
 
-  /* Style pour la bande noire en bas de la page */
   .bottom-bar {
     position: fixed;
     bottom: 0;
@@ -98,7 +96,7 @@
     padding: 10px;
     color: #fff;
     text-align: center;
-    z-index: 999; /* Assure que la bottom bar est au-dessus du contenu */
+    z-index: 999;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,12 +109,11 @@
   }
 
   .copyright {
-    font-size: 10px; /* Taille de la police réduite */
-    margin-right: 10px; /* Marge à droite pour s'aligner avec le logo */
-    margin-left: 5px; /* Déplacement vers la gauche */
+    font-size: 10px;
+    margin-right: 10px;
+    margin-left: 5px;
   }
 
-  /* Styles pour les icônes dans le cadre blanc */
   .icon-container {
     background-color: #fff;
     padding: 10px;
@@ -156,7 +153,6 @@
     opacity: 1;
   }
 
-  /* Masquer l'indicateur lorsque l'icône n'est pas cliquée */
   .icon:not(.clicked) .indicator {
     opacity: 0;
   }
@@ -165,12 +161,11 @@
 <body>
 
 <div class="header">
-  <h1>Notification</h1> <!-- Changement de texte -->
+  <h1>Notification</h1>
   <i class="fas fa-search search-icon" onclick="toggleClicked(this)"></i>
   <div class="circle"></div>
 </div>
 
-<!-- Cadre blanc avec les icônes -->
 <div class="icon-container">
   <a href="#" class="icon home-icon" onclick="changeColor(this)">
     <i class="fas fa-home"></i>
@@ -178,7 +173,7 @@
     <div class="indicator"></div>
   </a>
   <a href="#" class="icon friends-icon" onclick="changeColor(this)">
-    <i class="fas fa-user-friends"></i><span>Amis et Contacts</span> <!-- Changement de texte -->
+    <i class="fas fa-user-friends"></i><span>Amis et Contacts</span>
     <div class="indicator"></div>
   </a>
   <a href="#" class="icon message-icon" onclick="changeColor(this)">
@@ -186,9 +181,9 @@
     <span>Message</span>
     <div class="indicator"></div>
   </a>
-  <a href="#" class="icon notification-icon clicked" onclick="changeColor(this)"> <!-- Maintenir l'indicateur -->
+  <a href="#" class="icon notification-icon clicked" onclick="changeColor(this)">
     <i class="fas fa-bell"></i>
-    <span>Notification</span> <!-- Changement de texte -->
+    <span>Notification</span>
     <div class="indicator"></div>
   </a>
 </div>
@@ -197,9 +192,8 @@
   <!-- La liste des messages est supprimée -->
 </div>
 
-<!-- Bande noire en bas de la page avec le logo -->
 <div class="bottom-bar">
-  <img src="logo.png"alt="Logo">
+  <img src="logo.png" alt="Logo">
   <span class="copyright">Desnado Kouacanou copyright</span>
 </div>
 
@@ -216,28 +210,23 @@ function changeColor(element) {
   element.classList.toggle('clicked');
 }
 
-// Fonction pour charger les notifications depuis un fichier de stockage
-function chargerNotifications() {// Charger les données depuis le fichier donnees.json
-  fetch('donnees.json')
-    .then(response => response.json())
-    .then(data => {
-      // Une fois les données chargées, tu peux effectuer les opérations nécessaires
-      // Par exemple, afficher les notifications en appelant la fonction afficherNotifications()
-      afficherNotifications(data.notifications);
-    })
-    .catch(error => {
-      console.error('Erreur lors du chargement des notifications : ', error);
-    });
+const fs = require('fs');
+
+function chargerNotifications() {
+  fs.readFile('donnees.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors du chargement des notifications : ', err);
+      return;
+    }
+    const notifications = JSON.parse(data).notifications;
+    afficherNotifications(notifications);
+  });
 }
 
-// Fonction pour afficher les notifications
 function afficherNotifications(notifications) {
-  // Ici, tu peux ajouter la logique pour afficher les notifications
-  // Par exemple, en utilisant le DOM pour ajouter des éléments HTML pour chaque notification
-  // Assure-toi de gérer le cas où il n'y a aucune notification à afficher
+  // Afficher les notifications ici
 }
 
-// Appeler la fonction chargerNotifications() au chargement de la page
 window.addEventListener('load', chargerNotifications);
 </script>
 
