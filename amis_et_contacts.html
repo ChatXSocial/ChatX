@@ -209,6 +209,8 @@
 </div>
 
 <script>
+const fs = require('fs');
+
 function toggleClicked(element) {
   element.classList.toggle('clicked');
 }
@@ -223,58 +225,49 @@ function changeColor(element) {
 
 // Fonction pour charger les données d'utilisateurs et de messages depuis un fichier de stockage
 function chargerDonnees() {
-  fetch('donnees.json') // Remplacez 'donnees.json' par le chemin de votre fichier JSON de données
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erreur lors du chargementdes données');
-      }
-      return response.json();
-    })
-    .then(data => {
-      // Une fois les données JSON chargées avec succès
-      // Affichez les utilisateurs avec lesquels l'utilisateur a eu une discussion
-      afficherUtilisateursDiscutes(data);
-    })
-    .catch(error => {
-      console.error('Erreur:', error.message);
-      // Gérez l'erreur de chargement des données
-    });
+  fs.readFile('donnees.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors du chargement des données:', err);
+      return;
+    }
+    try {
+      const jsonData = JSON.parse(data);
+      afficherUtilisateursDiscutes(jsonData);
+    } catch (error) {
+      console.error('Erreur lors de l\'analyse des données JSON:', error);
+    }
+  });
 }
 
 // Fonction pour afficher les utilisateurs avec lesquels l'utilisateur a eu une discussion
 function afficherUtilisateursDiscutes(data) {
-  const utilisateursDiscutes = trouverUtilisateursDiscutes(data); // Trouver les utilisateurs avec lesquels l'utilisateur a discuté
+  const utilisateursDiscutes = trouverUtilisateursDiscutes(data);
 
-  // Parcourez les utilisateurs discutés et affichez-les
   utilisateursDiscutes.forEach(utilisateur => {
-    // Créez un élément HTML pour chaque utilisateur
     const utilisateurElement = document.createElement('div');
     utilisateurElement.classList.add('utilisateur');
     utilisateurElement.innerHTML = `
       <img src="${utilisateur.photo_profil}" alt="${utilisateur.nom}" class="photo-profil">
       <p>${utilisateur.nom} ${utilisateur.prenom}</p>
     `;
-    // Ajoutez l'élément utilisateur à la zone d'affichage des utilisateurs sur la page
     document.querySelector('.utilisateurs-container').appendChild(utilisateurElement);
   });
 }
 
 // Fonction pour trouver les utilisateurs avec lesquels l'utilisateur a eu une discussion
 function trouverUtilisateursDiscutes(data) {
-  const messages = data.messages; // Récupérer les messages du fichier de données
-  const utilisateursDiscutes = new Set(); // Utiliser un ensemble pour stocker les utilisateurs uniques avec lesquels l'utilisateur a discuté
+  const messages = data.messages;
+  const utilisateursDiscutes = new Set();
 
-  // Parcourez les messages et ajoutez les ID des utilisateurs avec lesquels l'utilisateur a discuté à l'ensemble
   messages.forEach(message => {
-    if (message.senderId !== utilisateurActuelId) { // Assurez-vous de ne pas inclure l'utilisateur actuel lui-même
+    if (message.senderId !== utilisateurActuelId) {
       utilisateursDiscutes.add(message.senderId);
     }
-    if (message.receiverId !== utilisateurActuelId) { // Assurez-vous de ne pas inclure l'utilisateur actuel lui-même
+    if (message.receiverId !== utilisateurActuelId) {
       utilisateursDiscutes.add(message.receiverId);
     }
   });
 
-  // Convertissez l'ensemble d'IDs d'utilisateurs en tableau d'objets d'utilisateurs avec les données complètes
   const utilisateursDiscutesAvecDonnees = Array.from(utilisateursDiscutes).map(userId => {
     return data.users.find(user => user.id === userId);
   });
@@ -282,9 +275,8 @@ function trouverUtilisateursDiscutes(data) {
   return utilisateursDiscutesAvecDonnees;
 }
 
-// Appeler la fonction chargerDonnees() au chargement de la page
 window.addEventListener('load', chargerDonnees);
 </script>
 
 </body>
-  </html>
+</html>
